@@ -16,9 +16,7 @@ Here's a basic example of how to use errorhole:
 func main() {
 	defer errorhole.Catch() // Waiting for an error
 	// do something...
-	app, err := NewApp()
 	errorhole.Nil(err) // Check error
-	app.Run()
 }
 ```
 ## Contributing
