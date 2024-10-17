@@ -1,9 +1,11 @@
 package errorhole
 
 import (
-	"fmt"
+	"errors"
 	"log"
 	"runtime"
+	"strconv"
+	"strings"
 )
 
 var DefaultHandler = func(x error) {
@@ -25,8 +27,19 @@ func Catch(handlers ...(func(x error))) {
 
 func Nil(err error) {
 	if err != nil {
-		pc, file, line, _ := runtime.Caller(1)
-		f := runtime.FuncForPC(pc).Name()
-		panic(fmt.Errorf("%s:%s:%d: error: %s", file, f, line, err))
+		pc, file, line, ok := runtime.Caller(1)
+		build := strings.Builder{}
+		if ok {
+			f := runtime.FuncForPC(pc).Name()
+			build.WriteString(file)
+			build.WriteString(":")
+			build.WriteString(f)
+			build.WriteString(":")
+			n := strconv.Itoa(line)
+			build.WriteString(n)
+			build.WriteString(": ")
+		}
+		build.WriteString(err.Error())
+		panic(errors.New(build.String()))
 	}
 }
