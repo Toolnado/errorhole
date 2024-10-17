@@ -7,7 +7,8 @@ import (
 )
 
 func main() {
+	err := errors.New("error")
 	defer errorhole.Catch() // Waiting for an error
 	// do something...
-	errorhole.Nil(errors.New("error")) // Check error
+	errorhole.Nil(err) // Check error
 }
