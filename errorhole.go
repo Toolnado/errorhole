@@ -8,8 +8,10 @@ import (
 	"strings"
 )
 
+// Error handler
 type Handler func(x error)
 
+// Default error handler
 var DefaultHandler = func(x error) {
 	log.Println(x)
 }
